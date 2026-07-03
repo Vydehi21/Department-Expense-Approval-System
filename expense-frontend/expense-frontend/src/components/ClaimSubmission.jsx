@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { expenseApi } from '../api/expenseApi';
+// 🪙 Import the central corporate array matrix structures 
+import { DEPARTMENTS, EXPENSE_CATEGORIES } from '../constants/appConstants';
 
 function ClaimSubmission() {
-  // Central form state initialization
+  // Central form state initialization linked directly to index records
   const [formData, setFormData] = useState({
     employeeName: '',
-    departmentName: 'Engineering', // Default fallback
-    expenseCategory: 'Travel',    // Default fallback
+    departmentName: DEPARTMENTS[0], // 👈 Defaults to 'Engineering' dynamically
+    expenseCategory: EXPENSE_CATEGORIES[0], // 👈 Defaults to first element dynamically
     amount: '',
     expenseDate: '',
     description: ''
@@ -46,8 +48,8 @@ function ClaimSubmission() {
       setMessage({ type: 'success', text: `Claim submitted successfully! Claim ID: ${response.data.id}` });
       setFormData({
         employeeName: '',
-        departmentName: 'Engineering',
-        expenseCategory: 'Travel',
+        departmentName: DEPARTMENTS[0], // 👈 Dynamic safe reset
+        expenseCategory: EXPENSE_CATEGORIES[0], // 👈 Dynamic safe reset
         amount: '',
         expenseDate: '',
         description: ''
@@ -96,10 +98,12 @@ function ClaimSubmission() {
               onChange={handleChange}
               style={styles.select}
             >
-              <option value="Engineering">Engineering</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Sales">Sales</option>
-              <option value="Human Resources">Human Resources</option>
+              {/* 🔄 Programmatic Loop: Eliminates duplicate option bugs across views */}
+              {DEPARTMENTS.map((dept) => (
+                <option key={dept} value={dept}>
+                  {dept}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -113,10 +117,12 @@ function ClaimSubmission() {
               onChange={handleChange}
               style={styles.select}
             >
-              <option value="Travel">Travel & Transit</option>
-              <option value="Software Licensing">Software Licensing</option>
-              <option value="Hardware & Office Equipment">Hardware & Office Equipment</option>
-              <option value="Meals & Entertainment">Meals & Entertainment</option>
+              {/* 🔄 Programmatic Loop: Automatically maps clean categories text */}
+              {EXPENSE_CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -178,7 +184,7 @@ const styles = {
   group: { display: 'flex', flexDirection: 'column', gap: '4px', flex: '1 1 250px' },
   label: { fontSize: '14px', fontWeight: '600', color: '#374151' },
   input: { padding: '10px 14px', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '15px' },
-  select: { padding: '10px 14px', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '15px', backgroundColor: 'white',color: '#374151' },
+  select: { padding: '10px 14px', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '15px', backgroundColor: 'white', color: '#374151' },
   textarea: { padding: '10px 14px', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '15px', fontFamily: 'inherit' },
   button: { padding: '12px', backgroundColor: '#2563eb', color: 'white', border: 'none', borderRadius: '6px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', transition: 'background-color 0.2s', marginTop: '10px' },
   successAlert: { padding: '12px 20px', backgroundColor: '#def7ec', color: '#03543f', borderRadius: '6px', fontSize: '14px', fontWeight: '500' },

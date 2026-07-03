@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { expenseApi } from "../api/expenseApi";
+import { DEPARTMENTS, EXPENSE_CATEGORIES } from "../constants/appConstants";
 
 function ExpenseBoard({currentUser }) {
   const currentYear = new Date().getFullYear();
@@ -128,11 +129,9 @@ function ExpenseBoard({currentUser }) {
           >
             <option value="">All Departments</option>
 
-            <option>Engineering</option>
-
-            <option>Marketing</option>
-
-            <option>Sales</option>
+            {DEPARTMENTS.map((dept) => (
+              <option key={dept} value={dept}>{dept}</option>
+            ))}
           </select>
 
           <select
@@ -143,9 +142,9 @@ function ExpenseBoard({currentUser }) {
           >
             <option value="">All Categories</option>
 
-            <option>Travel</option>
-
-            <option>Software Licensing</option>
+            {EXPENSE_CATEGORIES.map((cat) => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
           </select>
 
           <select

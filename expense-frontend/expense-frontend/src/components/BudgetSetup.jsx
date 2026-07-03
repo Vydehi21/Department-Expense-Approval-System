@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { expenseApi } from '../api/expenseApi';
+// 🪙 Import the central corporate array matrix structure
+import { DEPARTMENTS } from '../constants/appConstants';
 
 function BudgetSetup() {
   // Setup state tracking current calendar year automatically
   const currentYear = new Date().getFullYear();
 
   const [formData, setFormData] = useState({
-    departmentName: 'Engineering',
+    departmentName: DEPARTMENTS[0], // 👈 Dynamic default fallback ('Engineering')
     budgetMonth: 1,
     budgetYear: currentYear,
     monthlyBudget: ''
@@ -76,10 +78,12 @@ function BudgetSetup() {
               onChange={handleChange}
               style={styles.select}
             >
-              <option value="Engineering">Engineering</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Sales">Sales</option>
-              <option value="Human Resources">Human Resources</option>
+              {/* 🔄 Programmatic Loop: Fixes option mismatches */}
+              {DEPARTMENTS.map((dept) => (
+                <option key={dept} value={dept}>
+                  {dept}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -147,7 +151,7 @@ const styles = {
   group: { display: 'flex', flexDirection: 'column', gap: '6px', flex: '1 1 250px' },
   label: { fontSize: '14px', fontWeight: '600', color: '#374151' },
   input: { padding: '10px 14px', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '15px' },
-  select: { padding: '10px 14px', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '15px', backgroundColor: 'white',color: '#374151' },
+  select: { padding: '10px 14px', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '15px', backgroundColor: 'white', color: '#374151' },
   button: { padding: '12px', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '6px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer', transition: 'background-color 0.2s', marginTop: '10px' },
   successAlert: { padding: '12px 20px', backgroundColor: '#def7ec', color: '#03543f', borderRadius: '6px', fontSize: '14px', fontWeight: '500' },
   errorAlert: { padding: '12px 20px', backgroundColor: '#fde8e8', color: '#9b1c1c', borderRadius: '6px', fontSize: '14px', fontWeight: '500' }

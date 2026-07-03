@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { expenseApi } from '../api/expenseApi';
+// 🪙 Import the central corporate array matrix structure
+import { DEPARTMENTS } from '../constants/appConstants';
 
 function DashboardSummary() {
   const currentYear = new Date().getFullYear();
 
   // Search Matrix Filter States
   const [filters, setFilters] = useState({
-    departmentName: 'Engineering',
+    departmentName: DEPARTMENTS[0], // 👈 Dynamic default fallback ('Engineering')
     month: new Date().getMonth() + 1, // Defaults to current calendar month
     year: currentYear
   });
@@ -60,10 +62,12 @@ function DashboardSummary() {
           <div style={styles.group}>
             <label style={styles.label}>Department</label>
             <select name="departmentName" value={filters.departmentName} onChange={handleFilterChange} style={styles.select}>
-              <option value="Engineering">Engineering</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Sales">Sales</option>
-              <option value="Human Resources">Human Resources</option>
+              {/* 🔄 Programmatic Loop: Automatically maps clean departments text */}
+              {DEPARTMENTS.map((dept) => (
+                <option key={dept} value={dept}>
+                  {dept}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -149,7 +153,7 @@ const styles = {
   filterRow: { display: 'flex', gap: '20px', flexWrap: 'wrap' },
   group: { display: 'flex', flexDirection: 'column', gap: '6px', flex: '1 1 200px' },
   label: { fontSize: '13px', fontWeight: '600', color: '#4b5563' },
-  select: { padding: '10px 14px', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '15px', backgroundColor: 'white',color: '#374151' },
+  select: { padding: '10px 14px', borderRadius: '6px', border: '1px solid #d1d5db', fontSize: '15px', backgroundColor: 'white', color: '#374151' },
   metricsGrid: { display: 'flex', gap: '20px', flexWrap: 'wrap' },
   metricCard: { flex: '1 1 280px', backgroundColor: 'white', padding: '20px', borderRadius: '10px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)', display: 'flex', flexDirection: 'column', gap: '8px' },
   metricLabel: { fontSize: '12px', textTransform: 'uppercase', tracking: '0.05em', fontWeight: 'bold', color: '#6b7280' },

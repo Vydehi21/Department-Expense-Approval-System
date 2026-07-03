@@ -8,7 +8,7 @@ function App() {
   // Global Session State
   const [currentUser, setCurrentUser] = useState({
     name: 'Rahul Sharma',
-    role: 'EMPLOYEE' // Options: EMPLOYEE, MANAGER, FINANCE_ADMIN
+    role: 'EMPLOYEE' // Options: EMPLOYEE, FINANCE_MANAGER
   });
   
   const [activeTab, setActiveTab] = useState('submit-claim');
@@ -17,8 +17,7 @@ function App() {
   const handleRoleChange = (e) => {
     const role = e.target.value;
     let name = 'Rahul Sharma';
-    if (role === 'MANAGER') name = 'Manager Priya';
-    if (role === 'FINANCE_ADMIN') name = 'Admin Amit';
+    if (role === 'FINANCE_MANAGER') name = 'Manager Priya';
     
     setCurrentUser({ name, role });
     setActiveTab('submit-claim'); // Reset safely to common tab
@@ -29,9 +28,9 @@ function App() {
       case 'submit-claim':
         return <ClaimSubmission currentUser={currentUser} />;
       case 'setup-budget':
-        return currentUser.role === 'FINANCE_ADMIN' ? <BudgetSetup /> : <div style={styles.denied}>Access Denied</div>;
+        return currentUser.role === 'FINANCE_MANAGER' ? <BudgetSetup /> : <div style={styles.denied}>Access Denied</div>;
       case 'expense-board':
-        return (currentUser.role === 'MANAGER' || currentUser.role === 'FINANCE_ADMIN') 
+        return currentUser.role === 'FINANCE_MANAGER'
           ? <ExpenseBoard currentUser={currentUser} /> 
           : <div style={styles.denied}>Access Denied</div>;
       case 'dashboard':
@@ -50,9 +49,8 @@ function App() {
         <div>
           <label style={{ marginRight: '10px', fontSize: '13px' }}>Simulate Logging In As:</label>
           <select value={currentUser.role} onChange={handleRoleChange} style={styles.sessionSelect}>
-            <option value="EMPLOYEE">Regular Employee</option>
-            <option value="MANAGER">Department Manager</option>
-            <option value="FINANCE_ADMIN">Finance Administrator</option>
+            <option value="EMPLOYEE">Employee</option>
+            <option value="FINANCE_MANAGER">Finance Manager</option>
           </select>
         </div>
       </div>
@@ -67,15 +65,15 @@ function App() {
           📝 Submit Claim
         </button>
         
-        {/* Only visible to Finance Admins */}
-        {currentUser.role === 'FINANCE_ADMIN' && (
+        {/* Only visible to Finance Manager */}
+        {currentUser.role === 'FINANCE_MANAGER' && (
           <button onClick={() => setActiveTab('setup-budget')} style={activeTab === 'setup-budget' ? styles.activeTab : styles.inactiveTab}>
             💰 Setup Budget 
           </button>
         )}
         
-        {/* Only visible to Managers or Finance Admins */}
-        {(currentUser.role === 'MANAGER' || currentUser.role === 'FINANCE_ADMIN') && (
+        {/* Only visible to Finance Manager */}
+        {currentUser.role === 'FINANCE_MANAGER' && (
           <button onClick={() => setActiveTab('expense-board')} style={activeTab === 'expense-board' ? styles.activeTab : styles.inactiveTab}>
             📋 Approval Board
           </button>

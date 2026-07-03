@@ -1,10 +1,23 @@
 package com.company.expenseapp.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(
     name = "department_budgets",
@@ -34,29 +47,5 @@ public class DepartmentBudget {
     @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal monthlyBudget;
 
-    // Constructors
-    public DepartmentBudget() {}
 
-    public DepartmentBudget(String departmentName, Integer budgetMonth, Integer budgetYear, BigDecimal monthlyBudget) {
-        this.departmentName = departmentName;
-        this.budgetMonth = budgetMonth;
-        this.budgetYear = budgetYear;
-        this.monthlyBudget = monthlyBudget;
-    }
-
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getDepartmentName() { return departmentName; }
-    public void setDepartmentName(String departmentName) { this.departmentName = departmentName; }
-
-    public Integer getBudgetMonth() { return budgetMonth; }
-    public void setBudgetMonth(Integer budgetMonth) { this.budgetMonth = budgetMonth; }
-
-    public Integer getBudgetYear() { return budgetYear; }
-    public void setBudgetYear(Integer budgetYear) { this.budgetYear = budgetYear; }
-
-    public BigDecimal getMonthlyBudget() { return monthlyBudget; }
-    public void setMonthlyBudget(BigDecimal monthlyBudget) { this.monthlyBudget = monthlyBudget; }
 }
